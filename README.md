@@ -4,7 +4,7 @@
 
 - Create React App (TypeScript)
 - Styled-Component
-- React-Router
+- React-Router-Dom
 - Recoil
 
 ### 업데이트 예정

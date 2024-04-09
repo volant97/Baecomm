@@ -1,10 +1,11 @@
 import GlobalStyle from "./GlobalStyle";
+import Router from "./shared/Router";
 
 function App() {
   return (
     <>
       <GlobalStyle />
-      <header>프로젝트 세팅</header>
+      <Router />
     </>
   );
 }
