@@ -1,8 +1,11 @@
+import GlobalStyle from "./GlobalStyle";
+
 function App() {
   return (
-    <div>
+    <>
+      <GlobalStyle />
       <header>프로젝트 세팅</header>
-    </div>
+    </>
   );
 }
 
