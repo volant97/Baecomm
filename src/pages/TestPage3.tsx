@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 function TestPage3() {
+  const params = useParams();
+  const cardId = params.id;
+
   const previousLocation = useRef<HTMLDivElement>(null);
 
   const handleBtnClick = () => {

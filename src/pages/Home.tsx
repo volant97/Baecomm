@@ -1,16 +1,18 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { productsHomeType } from "../types/apiType";
-const array = ["hello", "hi", "my", "code", "happy", "nice"];
+import { productsSelectType } from "../types/apiType";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
-  const SELECT = "thumbnail,brand,title,price";
+  const navigate = useNavigate();
+
+  const SELECT = "thumbnail,brand,title,price,description,images";
   let limit = 10;
   const [word, setWord] = useState<string>("");
-  const [searchedProducts, setSearchedProducts] = useState<productsHomeType[]>(
-    []
-  );
+  const [searchedProducts, setSearchedProducts] = useState<
+    productsSelectType[]
+  >([]);
 
   const fetchData = () => {
     const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=${limit}&select=${SELECT}`;
@@ -34,6 +36,10 @@ function Home() {
     fetchData();
   };
 
+  const handleProductCardClick = (id: number) => {
+    navigate(`/detail/${id}`);
+  };
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -51,8 +57,8 @@ function Home() {
       </StSearchForm>
       <StSearchListUl>
         {searchedProducts.length ? (
-          searchedProducts.map((item: productsHomeType) => (
-            <li key={item.id}>
+          searchedProducts.map((item: productsSelectType) => (
+            <li key={item.id} onClick={() => handleProductCardClick(item.id)}>
               <p>{item.thumbnail}</p>
               <p className="hover">{`${item.brand}] ${item.title}`}</p>
               <p>{item.price}</p>

@@ -12,10 +12,12 @@ export type productsOriginalType = {
   title: string;
 };
 
-export type productsHomeType = {
+export type productsSelectType = {
   id: number;
   thumbnail: string;
   brand: string;
   title: string;
   price: number;
+  description: string;
+  images: string[];
 };
