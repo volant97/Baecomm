@@ -12,23 +12,27 @@ function Home() {
   const SELECT = "thumbnail,brand,title,price,description,images";
   const [word, setWord] = useState<string>("");
   const [searchedProducts, setSearchedProducts] = useRecoilState(previousState);
-  const [limit, setLimit] = useState<number>(10);
-  const [count, setCount] = useState<number>(0);
+  const [limit, setLimit] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const fetchData = () => {
-    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=0&select=${SELECT}`;
-    fetch(API_SEARCH_URL)
-      .then((res) => res.json())
-      .then((obj) => {
-        setSearchedProducts(obj.products);
-        setTotalCount(obj.products.length);
-        if (obj.products.length < limit) {
-          setCount(obj.products.length);
-        } else {
-          setCount(limit);
-        }
-      });
+  const fetchData = async () => {
+    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=27&select=${SELECT}`;
+
+    try {
+      const res = await fetch(API_SEARCH_URL);
+      const obj = await res.json();
+
+      setSearchedProducts(obj.products);
+      setTotalCount(obj.products.length);
+
+      if (obj.products.length < 10) {
+        setLimit(obj.products.length);
+      } else {
+        setLimit(10);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,16 +41,12 @@ function Home() {
 
   const handleformSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setLimit(10);
-    setCount(0);
     fetchData();
     setWord("");
   };
 
   const handleResetBtnClick = () => {
     setSearchedProducts([]);
-    setLimit(10);
-    setCount(0);
     fetchData();
   };
 
@@ -55,12 +55,10 @@ function Home() {
   };
 
   const handleShowMoreBtnClick = () => {
-    setLimit(limit + 10);
-    console.log(totalCount - count < 0);
-    if (totalCount - count + 10 < 0) {
-      setCount(totalCount);
+    if (totalCount - limit - 10 < 0) {
+      setLimit(totalCount);
     } else {
-      setCount(count + 10);
+      setLimit(limit + 10);
     }
   };
 
@@ -69,7 +67,8 @@ function Home() {
   }, []);
 
   // console.log(searchedProducts);
-  console.log(limit);
+  // console.log("totalCount : ", totalCount);
+  // console.log("limit : ", limit);
 
   return (
     <StContainer>
@@ -99,7 +98,7 @@ function Home() {
       <StShowMoreBtn>
         <button onClick={handleShowMoreBtnClick}>더보기</button>
       </StShowMoreBtn>
-      <p>{`${count} / ${totalCount}`}</p>
+      <p>{`${limit} / ${totalCount}`}</p>
     </StContainer>
   );
 }
