@@ -12,11 +12,17 @@ function Detail() {
   const [detailedProducts, setDetailedProducts] =
     useState<productsSelectType | null>(null);
 
-  const fetchData = () => {
+  const fetchData = async () => {
     const API_SEARCH_URL = `https://dummyjson.com/products/${cardId}?select=${SELECT}`;
-    fetch(API_SEARCH_URL)
-      .then((res) => res.json())
-      .then((obj) => setDetailedProducts(obj));
+
+    try {
+      const res = await fetch(API_SEARCH_URL);
+      const obj = await res.json();
+
+      setDetailedProducts(obj);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleBackToListLinkClick = () => {};
