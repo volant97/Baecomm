@@ -16,7 +16,7 @@ function Home() {
   const [totalCount, setTotalCount] = useState<number>(0);
 
   const fetchData = async () => {
-    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=27&select=${SELECT}`;
+    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=17&select=${SELECT}`;
 
     try {
       const res = await fetch(API_SEARCH_URL);
@@ -94,11 +94,16 @@ function Home() {
         ) : (
           <p>검색 결과가 없습니다.</p>
         )}
+        {totalCount % 2 !== 0 && totalCount === limit ? (
+          <li className="none" />
+        ) : null}
       </StSearchListUl>
       <StShowMoreBtn>
-        <button onClick={handleShowMoreBtnClick}>더보기</button>
+        {totalCount !== limit ? (
+          <button onClick={handleShowMoreBtnClick}>더보기</button>
+        ) : null}
+        <p>{`${limit} / ${totalCount}`}</p>
       </StShowMoreBtn>
-      <p>{`${limit} / ${totalCount}`}</p>
     </StContainer>
   );
 }
@@ -149,9 +154,15 @@ const StSearchListUl = styled.ul`
   span {
     color: red;
   }
+
+  .none {
+    opacity: 0;
+    cursor: auto;
+  }
 `;
 
 const StShowMoreBtn = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -159,5 +170,11 @@ const StShowMoreBtn = styled.div`
   button {
     width: 300px;
     height: 40px;
+  }
+
+  p {
+    position: absolute;
+    right: 0;
+    bottom: 0;
   }
 `;
