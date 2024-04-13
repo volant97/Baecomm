@@ -1,4 +1,4 @@
-export type productsType = {
+export type productsOriginalType = {
   brand: string;
   category: string;
   description: string;
@@ -10,4 +10,12 @@ export type productsType = {
   stock: number;
   thumbnail: string;
   title: string;
+};
+
+export type productsHomeType = {
+  id: number;
+  thumbnail: string;
+  brand: string;
+  title: string;
+  price: number;
 };
