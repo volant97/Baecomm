@@ -8,7 +8,7 @@ function Home() {
   const navigate = useNavigate();
 
   const SELECT = "thumbnail,brand,title,price,description,images";
-  let limit = 10;
+  const [limit, setLimit] = useState<number>(10);
   const [word, setWord] = useState<string>("");
   const [searchedProducts, setSearchedProducts] = useState<
     productsSelectType[]
@@ -40,11 +40,17 @@ function Home() {
     navigate(`/detail/${id}`);
   };
 
+  const handleShowMoreBtnClick = () => {
+    console.log("limit : ", limit);
+    console.log("searchedProducts.length : ", searchedProducts.length);
+    setLimit(limit + 10);
+  };
+
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [limit]);
 
-  console.log(searchedProducts);
+  // console.log(searchedProducts);
 
   return (
     <StContainer>
@@ -68,6 +74,10 @@ function Home() {
           <p>검색 결과가 없습니다.</p>
         )}
       </StSearchListUl>
+      <StShowMoreBtn>
+        <button onClick={handleShowMoreBtnClick}>더보기</button>
+      </StShowMoreBtn>
+      <p>{searchedProducts.length}</p>
     </StContainer>
   );
 }
@@ -113,5 +123,16 @@ const StSearchListUl = styled.ul`
         color: blue;
       }
     }
+  }
+`;
+
+const StShowMoreBtn = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  button {
+    width: 300px;
+    height: 40px;
   }
 `;
