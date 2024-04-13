@@ -31,17 +31,25 @@ function Detail() {
     fetchData();
   }, []);
 
+  console.log("!!", detailedProducts?.images);
+
   return (
     <StContainer>
       <Link to={"/"}>목록으로 돌아가기</Link>
       {detailedProducts ? (
         <StCard>
-          <p>{detailedProducts.thumbnail}</p>
-          <p>{detailedProducts.brand}</p>
-          <p>{detailedProducts.title}</p>
-          <p>{detailedProducts.price}</p>
-          <p>{detailedProducts.description}</p>
-          <p>{detailedProducts.images[0]}...사진 모두 표시하기</p>
+          <img src={detailedProducts.thumbnail} alt="썸네일" />
+          <div>
+            <p>{detailedProducts.brand}</p>
+            <p>{detailedProducts.title}</p>
+            <p>{detailedProducts.price}</p>
+            <p>{detailedProducts.description}</p>
+          </div>
+          <StImgContainer>
+            {detailedProducts.images.map((item, index) => (
+              <img key={index} src={item} alt={`상품 이미지 ${index + 1}`} />
+            ))}
+          </StImgContainer>
         </StCard>
       ) : (
         <p>로딩중</p>
@@ -56,9 +64,32 @@ const StContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 10px;
+  max-width: 800px;
 `;
 
 const StCard = styled.div`
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px;
   border: 1px solid black;
+  border-radius: 20px;
+`;
+
+const StImgContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+  max-width: 800px;
+  border: 2px solid black;
+
+  img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 20px;
+  }
 `;

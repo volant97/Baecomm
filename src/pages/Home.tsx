@@ -98,12 +98,12 @@ function Home() {
           <li className="none" />
         ) : null}
       </StSearchListUl>
-      <StShowMoreBtn>
+      <StShowMoreBtnContainer>
         {totalCount !== limit ? (
           <button onClick={handleShowMoreBtnClick}>더보기</button>
         ) : null}
         <p>{`${limit} / ${totalCount}`}</p>
-      </StShowMoreBtn>
+      </StShowMoreBtnContainer>
     </StContainer>
   );
 }
@@ -161,7 +161,7 @@ const StSearchListUl = styled.ul`
   }
 `;
 
-const StShowMoreBtn = styled.div`
+const StShowMoreBtnContainer = styled.div`
   position: relative;
   display: flex;
   justify-content: center;

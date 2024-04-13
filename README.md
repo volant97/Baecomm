@@ -40,7 +40,6 @@ https://dummyjson.com/docs/products
 - 목록으로 돌아가기 버튼
   - 클릭 시 홈페이지로 이동
 - 상품 상세 정보
-
   - thumbnail image, brand, title, price, description, images 표시
 
 ---
@@ -53,8 +52,6 @@ https://dummyjson.com/docs/products
 
 - 목록으로 돌아가기 버튼
   - 홈페이지의 이전 검색어, 검색 결과, 스크롤 위치 유지
-- 상품 상세 정보
-  - images 모두 표시
 
 **추가 항목(UX 향상)**
 
@@ -68,3 +65,4 @@ https://dummyjson.com/docs/products
   - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지 v
 - 콘솔로그 삭제
 - 배포
+- Recoil을 활용하여 상세 페이지 최적화
