@@ -18,12 +18,17 @@ type productsType = {
 function TestPage2() {
   // const [products, setProducts] = useState<productsType[]>([]);
   const [products, setProducts] = useState<any>([]);
-  const searched = "9";
+  const searched = "mac";
+
+  const LIMIT = 10;
+  const SKIP = 0;
 
   // skip +10으로 페이지네이션
   const fetchData = () => {
-    // fetch(`https://dummyjson.com/products/search?q=${searched}`)
-    fetch(`https://dummyjson.com/products?limit=10&skip=0&select=title,price`)
+    fetch(`https://dummyjson.com/products/search?q=${searched}`)
+      // fetch(
+      //   `https://dummyjson.com/products?limit=${LIMIT}&skip=${SKIP}&q=${searched}`
+      // )
       .then((res) => res.json())
       .then((obj) => setProducts(obj.products));
   };
@@ -32,13 +37,17 @@ function TestPage2() {
     fetchData();
   }, []);
 
-  // console.log(products);
+  console.log(products);
 
   return (
     <>
       {products.map((item: any, index: number) => (
         <div key={index}>
-          <p>{item.title}</p>
+          <p>
+            {item.id}
+            {` - `}
+            {item.title}
+          </p>
         </div>
       ))}
       <Link to={"/test3"}>여기입니다</Link>
