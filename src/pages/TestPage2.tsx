@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 type productsType = {
   brand: string;
@@ -31,7 +32,7 @@ function TestPage2() {
     fetchData();
   }, []);
 
-  console.log(products);
+  // console.log(products);
 
   return (
     <>
@@ -40,6 +41,7 @@ function TestPage2() {
           <p>{item.title}</p>
         </div>
       ))}
+      <Link to={"/test3"}>여기입니다</Link>
     </>
   );
 }

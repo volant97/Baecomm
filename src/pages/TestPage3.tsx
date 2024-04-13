@@ -1,4 +1,5 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 function TestPage3() {
@@ -14,6 +15,32 @@ function TestPage3() {
     }
   };
 
+  const handleYTempBtnClick = () => {
+    console.log(window.pageYOffset, " 저장");
+    sessionStorage.setItem("yOffset", String(window.pageYOffset));
+  };
+
+  useEffect(() => {
+    const isY = Number(sessionStorage.getItem("yOffset"));
+    console.log(isY, "가져옴");
+
+    if (isY) {
+      window.scroll({ top: isY, left: 0, behavior: "smooth" });
+      sessionStorage.removeItem("yOffset");
+    }
+
+    const handleBeforeUnload = () => {
+      const yy = window.pageYOffset;
+      sessionStorage.setItem("yOffset", String(yy));
+    };
+
+    window.addEventListener("beforeunload", handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <StContainer>
       <StTestBox>1</StTestBox>
@@ -24,6 +51,10 @@ function TestPage3() {
       <StTestBox>6</StTestBox>
       <StTestBox>7</StTestBox>
       <button onClick={handleBtnClick}>스크롤 이동</button>
+      <button onClick={handleYTempBtnClick}>현재 y값</button>
+      <Link to={"/test2"} onClick={handleYTempBtnClick}>
+        이동하기
+      </Link>
     </StContainer>
   );
 }
