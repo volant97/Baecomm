@@ -74,20 +74,38 @@ function Home() {
 
 export default Home;
 
+const ulGap = "20px";
+const ulMaxWidth = "800px";
+
 const StContainer = styled.div`
-  /* border: 2px solid green; */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 `;
 
-const StSearchForm = styled.form``;
+const StSearchForm = styled.form`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 const StSearchListUl = styled.ul`
   display: flex;
-  flex-direction: column;
-  gap: 10px;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: ${ulGap};
+  max-width: ${ulMaxWidth};
 
   li {
-    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: calc(100% / 2 - ${ulGap});
+    min-width: calc(${ulMaxWidth} / 2 - ${ulGap});
+    height: 300px;
+    padding: 20px;
     border: 1px solid black;
+    border-radius: 20px;
     cursor: pointer;
 
     &:hover {

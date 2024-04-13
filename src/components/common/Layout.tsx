@@ -17,5 +17,4 @@ const StLayout = styled.div`
   align-items: center;
   width: 100%;
   padding: 50px 0;
-  border: 2px solid black;
 `;
