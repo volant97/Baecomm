@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { productsSelectType } from "../types/apiType";
@@ -8,16 +9,14 @@ function Detail() {
 
   const SELECT = "thumbnail,brand,title,price,description,images";
   const cardId = params.id;
-  const [searchedProducts, setSearchedProducts] =
+  const [detailedProducts, setDetailedProducts] =
     useState<productsSelectType | null>(null);
 
   const fetchData = () => {
-    console.log("cardId : ", cardId);
-    console.log("SELECT : ", SELECT);
     const API_SEARCH_URL = `https://dummyjson.com/products/${cardId}?select=${SELECT}`;
     fetch(API_SEARCH_URL)
       .then((res) => res.json())
-      .then((obj) => setSearchedProducts(obj));
+      .then((obj) => setDetailedProducts(obj));
   };
 
   const handleBackToListLinkClick = () => {};
@@ -26,19 +25,17 @@ function Detail() {
     fetchData();
   }, []);
 
-  console.log("!!! ", searchedProducts);
-
   return (
     <StContainer>
       <Link to={"/"}>목록으로 돌아가기</Link>
-      {searchedProducts ? (
+      {detailedProducts ? (
         <StCard>
-          <p>{searchedProducts.thumbnail}</p>
-          <p>{searchedProducts.brand}</p>
-          <p>{searchedProducts.title}</p>
-          <p>{searchedProducts.price}</p>
-          <p>{searchedProducts.description}</p>
-          <p>{searchedProducts.images[0]}...사진 모두 표시하기</p>
+          <p>{detailedProducts.thumbnail}</p>
+          <p>{detailedProducts.brand}</p>
+          <p>{detailedProducts.title}</p>
+          <p>{detailedProducts.price}</p>
+          <p>{detailedProducts.description}</p>
+          <p>{detailedProducts.images[0]}...사진 모두 표시하기</p>
         </StCard>
       ) : (
         <p>로딩중</p>

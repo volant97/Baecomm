@@ -3,22 +3,32 @@ import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { productsSelectType } from "../types/apiType";
 import { useNavigate } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { previousState } from "../recoil/previous";
 
 function Home() {
   const navigate = useNavigate();
 
   const SELECT = "thumbnail,brand,title,price,description,images";
-  const [limit, setLimit] = useState<number>(10);
   const [word, setWord] = useState<string>("");
-  const [searchedProducts, setSearchedProducts] = useState<
-    productsSelectType[]
-  >([]);
+  const [searchedProducts, setSearchedProducts] = useRecoilState(previousState);
+  const [limit, setLimit] = useState<number>(10);
+  const [count, setCount] = useState<number>(0);
+  const [totalCount, setTotalCount] = useState<number>(0);
 
   const fetchData = () => {
-    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=${limit}&select=${SELECT}`;
+    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=0&select=${SELECT}`;
     fetch(API_SEARCH_URL)
       .then((res) => res.json())
-      .then((obj) => setSearchedProducts(obj.products));
+      .then((obj) => {
+        setSearchedProducts(obj.products);
+        setTotalCount(obj.products.length);
+        if (obj.products.length < limit) {
+          setCount(obj.products.length);
+        } else {
+          setCount(limit);
+        }
+      });
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,12 +37,16 @@ function Home() {
 
   const handleformSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setLimit(10);
+    setCount(0);
     fetchData();
     setWord("");
   };
 
   const handleResetBtnClick = () => {
     setSearchedProducts([]);
+    setLimit(10);
+    setCount(0);
     fetchData();
   };
 
@@ -41,16 +55,21 @@ function Home() {
   };
 
   const handleShowMoreBtnClick = () => {
-    console.log("limit : ", limit);
-    console.log("searchedProducts.length : ", searchedProducts.length);
     setLimit(limit + 10);
+    console.log(totalCount - count < 0);
+    if (totalCount - count + 10 < 0) {
+      setCount(totalCount);
+    } else {
+      setCount(count + 10);
+    }
   };
 
   useEffect(() => {
     fetchData();
-  }, [limit]);
+  }, []);
 
   // console.log(searchedProducts);
+  console.log(limit);
 
   return (
     <StContainer>
@@ -62,14 +81,17 @@ function Home() {
         </button>
       </StSearchForm>
       <StSearchListUl>
-        {searchedProducts.length ? (
-          searchedProducts.map((item: productsSelectType) => (
-            <li key={item.id} onClick={() => handleProductCardClick(item.id)}>
-              <p>{item.thumbnail}</p>
-              <p className="hover">{`${item.brand}] ${item.title}`}</p>
-              <p>{item.price}</p>
-            </li>
-          ))
+        {totalCount && limit ? (
+          searchedProducts.map((item: productsSelectType, index: number) =>
+            index < limit ? (
+              <li key={item.id} onClick={() => handleProductCardClick(item.id)}>
+                <span>{index + 1}</span>
+                <p>{item.thumbnail}</p>
+                <p className="hover">{`${item.brand}] ${item.title}`}</p>
+                <p>{item.price}</p>
+              </li>
+            ) : null
+          )
         ) : (
           <p>검색 결과가 없습니다.</p>
         )}
@@ -77,7 +99,7 @@ function Home() {
       <StShowMoreBtn>
         <button onClick={handleShowMoreBtnClick}>더보기</button>
       </StShowMoreBtn>
-      <p>{searchedProducts.length}</p>
+      <p>{`${count} / ${totalCount}`}</p>
     </StContainer>
   );
 }
@@ -123,6 +145,10 @@ const StSearchListUl = styled.ul`
         color: blue;
       }
     }
+  }
+
+  span {
+    color: red;
   }
 `;
 
