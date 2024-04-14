@@ -13,8 +13,6 @@ https://dummyjson.com/docs/products
 
 - try catch문으로 작성
 - 데이터 fetch 후 Recoil에 저장
-  - Recoil을 활용하여 상세 페이지 최적화
-  - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지
 
 ### 상품 목록 페이지
 
@@ -58,13 +56,15 @@ https://dummyjson.com/docs/products
 
 - any 타입 제거 v
 - error 핸들링 v
-- 로딩중 표시
+- 로딩중 표시 v
 - 컴포넌트 세분화
-- testPage 삭제
+- testPage 삭제 v
 - CSS v
 - Recoil을 활용하여 상세 페이지 최적화
+  - 데이터 fetch 후 Recoil에 저장 v
   - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지
+    - 메인에서 fetch한 state 있는지 파악 후 없다면 fetch 진행
 - 콘솔로그 삭제 v
-- 배포
+- 배포 v
 - ScrollToTopBtn v
 - Layout Shift 보완 → Skeleton
