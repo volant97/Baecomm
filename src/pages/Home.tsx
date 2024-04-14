@@ -47,7 +47,6 @@ function Home() {
 
     if (prevYOffset) {
       window.scrollTo(0, prevYOffset);
-      console.log(prevYOffset);
     }
 
     if (prevSearchedWord) {
