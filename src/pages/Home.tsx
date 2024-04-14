@@ -2,10 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { useSetRecoilState } from "recoil";
 import { previousState } from "../recoil/previous";
-import { StContainer } from "../style/home";
 import SearchList from "../components/home/SearchList";
 import SearchForm from "../components/home/SearchForm";
 import ShowMoreBtn from "../components/home/ShowMoreBtn";
+import { StContainer } from "../style/home";
 
 function Home() {
   const SELECT = "thumbnail,brand,title,price,description,images";
@@ -15,7 +15,6 @@ function Home() {
   const [word, setWord] = useState<string>("");
   const [limit, setLimit] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
-
   const setSearchedProducts = useSetRecoilState(previousState);
 
   const fetchData = async (isprevSearchedWord = "") => {

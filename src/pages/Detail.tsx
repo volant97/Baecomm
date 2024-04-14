@@ -1,25 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { productsSelectType } from "../types/apiType";
-import {
-  StCard,
-  StCardImgGroupContainer,
-  StContainer,
-  StImgContainer,
-  StTextContainer,
-  StThumnailImg,
-} from "../style/detail";
 import Card from "../components/detail/Card";
+import { StContainer } from "../style/detail";
+import { productsSelectType } from "../types/apiType";
+import { useRecoilValue } from "recoil";
+import { previousState } from "../recoil/previous";
 
 function Detail() {
   const params = useParams();
 
   const SELECT = "thumbnail,brand,title,price,description,images";
-  const cardId = params.id;
+  const cardId = Number(params.id);
 
   const [detailedProducts, setDetailedProducts] =
     useState<productsSelectType | null>(null);
+  const searchedProducts = useRecoilValue(previousState);
+
+  const filteredProdict = searchedProducts.filter(
+    (item: productsSelectType) => {
+      return item.id === cardId;
+    }
+  );
 
   const fetchData = async () => {
     const API_SEARCH_URL = `https://dummyjson.com/products/${cardId}?select=${SELECT}`;
@@ -34,8 +36,14 @@ function Detail() {
     }
   };
 
+  console.log(filteredProdict);
+
   useEffect(() => {
-    fetchData();
+    if (filteredProdict.length === 0) {
+      fetchData();
+    } else {
+      setDetailedProducts(filteredProdict[0]);
+    }
   }, []);
 
   return (
