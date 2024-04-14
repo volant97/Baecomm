@@ -31,7 +31,7 @@ function Detail() {
     fetchData();
   }, []);
 
-  console.log("!!", detailedProducts?.images);
+  // console.log("!!", detailedProducts?.images);
 
   return (
     <StContainer>

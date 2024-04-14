@@ -15,8 +15,11 @@ function Home() {
   const [limit, setLimit] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
+  const isYOffset = window.pageYOffset;
+  const yOffsetToNum = Number(sessionStorage.getItem("yOffset"));
+
   const fetchData = async () => {
-    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=17&select=${SELECT}`;
+    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=0&select=${SELECT}`;
 
     try {
       const res = await fetch(API_SEARCH_URL);
@@ -35,6 +38,19 @@ function Home() {
     }
   };
 
+  const loadPreviousState = () => {
+    if (yOffsetToNum) {
+      window.scroll({ top: yOffsetToNum, left: 0, behavior: "smooth" });
+      sessionStorage.removeItem("yOffset");
+    }
+
+    window.addEventListener("beforeunload", handleBeforeunload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeunload);
+    };
+  };
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
   };
@@ -51,6 +67,7 @@ function Home() {
   };
 
   const handleProductCardClick = (id: number) => {
+    sessionStorage.setItem("yOffset", String(window.pageYOffset));
     navigate(`/detail/${id}`);
   };
 
@@ -62,8 +79,16 @@ function Home() {
     }
   };
 
+  const handleBeforeunload = () => {
+    sessionStorage.setItem("yOffset", String(isYOffset));
+  };
+
   useEffect(() => {
-    fetchData();
+    const landing = async () => {
+      await fetchData();
+      loadPreviousState();
+    };
+    landing();
   }, []);
 
   // console.log(searchedProducts);

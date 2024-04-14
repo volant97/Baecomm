@@ -39,6 +39,8 @@ https://dummyjson.com/docs/products
 
 - 목록으로 돌아가기 버튼
   - 클릭 시 홈페이지로 이동
+  - 홈페이지 상태 유지
+    - 스크롤 위치
 - 상품 상세 정보
   - thumbnail image, brand, title, price, description, images 표시
 
