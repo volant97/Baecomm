@@ -1,22 +1,26 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import { productsSelectType } from "../types/apiType";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { previousState } from "../recoil/previous";
+import ScrollToTopBtn from "../components/common/ScrollToTopBtn";
 
 function Home() {
   const navigate = useNavigate();
 
   const SELECT = "thumbnail,brand,title,price,description,images";
   const [word, setWord] = useState<string>("");
+  const searchedWord = useRef<string>("");
   const [searchedProducts, setSearchedProducts] = useRecoilState(previousState);
   const [limit, setLimit] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const fetchData = async () => {
-    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=0&select=${SELECT}`;
+  const fetchData = async (isprevSearchedWord = "") => {
+    const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${
+      !isprevSearchedWord ? word : isprevSearchedWord
+    }&limit=27&select=${SELECT}`;
 
     try {
       const res = await fetch(API_SEARCH_URL);
@@ -36,15 +40,42 @@ function Home() {
   };
 
   const loadPreviousState = () => {
-    const yOffsetToNum = Number(sessionStorage.getItem("yOffset"));
+    const prevYOffset = Number(sessionStorage.getItem("yOffset"));
+    const prevSearchedWord = sessionStorage.getItem("searchedWord");
+    const prevLimit = Number(sessionStorage.getItem("limit"));
+    const prevTotalCount = Number(sessionStorage.getItem("totalCount"));
 
-    if (yOffsetToNum) {
-      window.scroll({ top: yOffsetToNum, left: 0, behavior: "smooth" });
+    if (prevYOffset) {
+      window.scroll({ top: prevYOffset, left: 0, behavior: "smooth" });
     }
+
+    if (prevSearchedWord) {
+      searchedWord.current = prevSearchedWord;
+    }
+
+    if (prevLimit) {
+      setLimit(prevLimit);
+    }
+
+    if (prevTotalCount) {
+      setTotalCount(prevTotalCount);
+    }
+  };
+
+  const sessionStorageSetItem = () => {
+    sessionStorage.setItem("yOffset", String(window.pageYOffset));
+    sessionStorage.setItem("searchedWord", searchedWord.current);
+    sessionStorage.setItem("limit", String(limit));
+    sessionStorage.setItem("totalCount", String(totalCount));
+  };
+
+  const sessionStorageRemoveItem = () => {
+    sessionStorage.clear();
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setWord(e.target.value);
+    searchedWord.current = e.target.value;
   };
 
   const handleformSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,12 +85,15 @@ function Home() {
   };
 
   const handleResetBtnClick = () => {
+    setWord("");
+    searchedWord.current = "";
     setSearchedProducts([]);
+    sessionStorageRemoveItem();
     fetchData();
   };
 
   const handleProductCardClick = (id: number) => {
-    sessionStorage.setItem("yOffset", String(window.pageYOffset));
+    sessionStorageSetItem();
     navigate(`/detail/${id}`);
   };
 
@@ -71,33 +105,38 @@ function Home() {
     }
   };
 
+  console.log(searchedWord.current);
+
   useEffect(() => {
     const landing = async () => {
-      await fetchData();
-      loadPreviousState();
-    };
+      const prevSearchedWord = sessionStorage.getItem("searchedWord");
+      if (prevSearchedWord) {
+        await fetchData(prevSearchedWord);
+      } else {
+        await fetchData();
+      }
 
-    const handleBeforeunload = () => {
-      sessionStorage.setItem("yOffset", String(window.pageYOffset));
+      loadPreviousState();
     };
 
     landing();
 
-    window.addEventListener("beforeunload", handleBeforeunload);
+    window.addEventListener("beforeunload", sessionStorageSetItem);
 
     return () => {
-      window.removeEventListener("beforeunload", handleBeforeunload);
+      window.removeEventListener("beforeunload", sessionStorageSetItem);
     };
   }, []);
-
-  // console.log(searchedProducts);
-  // console.log("totalCount : ", totalCount);
-  // console.log("limit : ", limit);
 
   return (
     <StContainer>
       <StSearchForm onSubmit={handleformSubmit}>
-        <input value={word} onChange={handleInputChange} required />
+        <input
+          value={word}
+          onChange={handleInputChange}
+          placeholder={searchedWord.current}
+          required
+        />
         <button type="submit">검색</button>
         <button type="button" onClick={handleResetBtnClick}>
           리셋
@@ -109,7 +148,7 @@ function Home() {
             index < limit ? (
               <li key={item.id} onClick={() => handleProductCardClick(item.id)}>
                 <span>{index + 1}</span>
-                <p>{item.thumbnail}</p>
+                <img src={item.thumbnail} alt="썸네일" />
                 <p className="hover">{`${item.brand}] ${item.title}`}</p>
                 <p>{item.price}</p>
               </li>
@@ -128,6 +167,7 @@ function Home() {
         ) : null}
         <p>{`${limit} / ${totalCount}`}</p>
       </StShowMoreBtnContainer>
+      <ScrollToTopBtn />
     </StContainer>
   );
 }
@@ -147,6 +187,10 @@ const StSearchForm = styled.form`
   display: flex;
   justify-content: center;
   width: 100%;
+
+  input::placeholder {
+    opacity: 50%;
+  }
 `;
 
 const StSearchListUl = styled.ul`
@@ -177,6 +221,13 @@ const StSearchListUl = styled.ul`
 
   span {
     color: red;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 20px;
   }
 
   .none {

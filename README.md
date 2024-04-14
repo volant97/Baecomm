@@ -34,13 +34,19 @@ https://dummyjson.com/docs/products
     - 클릭 시 10개의 상품 추가로 표시
       - 현재 표시된 상품수와 전체 상품수 표시
     - 더 표시할 상품이 있을 때만 버튼 표시
+  - ScrollToTopBtn
 
 ### 상품 상세 페이지
 
 - 목록으로 돌아가기 버튼
   - 클릭 시 홈페이지로 이동
-  - 홈페이지 상태 유지
+  - 홈페이지 이전 상태 유지
+    - 검색어
+    - 검색 결과
     - 스크롤 위치
+  - 상태값 관리
+    - 페이지 새로고침, 주소창 입력하여 직접 이동 → window.addEventListener의 beforeunload로 상태값 저장
+    - Link 태그를 통해서 이동 → 태그에 onClick 함수로 상태값 저장
 - 상품 상세 정보
   - thumbnail image, brand, title, price, description, images 표시
 
@@ -51,9 +57,6 @@ https://dummyjson.com/docs/products
 **상품 목록 페이지**
 
 **상품 상세 페이지**
-
-- 목록으로 돌아가기 버튼
-  - 홈페이지의 이전 검색어, 검색 결과, 스크롤 위치 유지
 
 **추가 항목(UX 향상)**
 
@@ -68,3 +71,4 @@ https://dummyjson.com/docs/products
 - 콘솔로그 삭제
 - 배포
 - Recoil을 활용하여 상세 페이지 최적화
+- ScrollToTopBtn v
