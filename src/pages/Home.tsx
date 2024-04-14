@@ -46,7 +46,8 @@ function Home() {
     const prevTotalCount = Number(sessionStorage.getItem("totalCount"));
 
     if (prevYOffset) {
-      window.scroll({ top: prevYOffset, left: 0, behavior: "smooth" });
+      window.scrollTo(0, prevYOffset);
+      console.log(prevYOffset);
     }
 
     if (prevSearchedWord) {
@@ -72,13 +73,18 @@ function Home() {
   useEffect(() => {
     const landing = async () => {
       const prevSearchedWord = sessionStorage.getItem("searchedWord");
-      if (prevSearchedWord) {
-        await fetchData(prevSearchedWord);
-      } else {
-        await fetchData();
-      }
 
-      loadPreviousState();
+      try {
+        if (prevSearchedWord) {
+          await fetchData(prevSearchedWord);
+        } else {
+          await fetchData();
+        }
+      } catch (error) {
+        console.error(error);
+      } finally {
+        loadPreviousState();
+      }
     };
 
     landing();
