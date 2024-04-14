@@ -57,7 +57,7 @@ https://dummyjson.com/docs/products
 - any 타입 제거 v
 - error 핸들링 v
 - 로딩중 표시 v
-- 컴포넌트 세분화
+- 컴포넌트 세분화 v
 - testPage 삭제 v
 - CSS v
 - Recoil을 활용하여 상세 페이지 최적화

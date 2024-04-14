@@ -10,12 +10,14 @@ import {
   StTextContainer,
   StThumnailImg,
 } from "../style/detail";
+import Card from "../components/detail/Card";
 
 function Detail() {
   const params = useParams();
 
   const SELECT = "thumbnail,brand,title,price,description,images";
   const cardId = params.id;
+
   const [detailedProducts, setDetailedProducts] =
     useState<productsSelectType | null>(null);
 
@@ -40,24 +42,7 @@ function Detail() {
     <StContainer>
       <Link to={"/"}>목록으로 돌아가기</Link>
       {detailedProducts ? (
-        <StCard>
-          <StCardImgGroupContainer>
-            <StThumnailImg>
-              <img src={detailedProducts.thumbnail} alt="썸네일" />
-            </StThumnailImg>
-            <StImgContainer>
-              {detailedProducts.images.map((item, index) => (
-                <img key={index} src={item} alt={`상품 이미지 ${index + 1}`} />
-              ))}
-            </StImgContainer>
-          </StCardImgGroupContainer>
-          <StTextContainer>
-            <h1>{detailedProducts.brand}</h1>
-            <h2>{detailedProducts.title}</h2>
-            <h3>$ {detailedProducts.price}</h3>
-            <p>{detailedProducts.description}</p>
-          </StTextContainer>
-        </StCard>
+        <Card detailedProducts={detailedProducts} />
       ) : (
         <p>로딩중</p>
       )}
