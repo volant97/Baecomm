@@ -15,9 +15,6 @@ function Home() {
   const [limit, setLimit] = useState<number>(0);
   const [totalCount, setTotalCount] = useState<number>(0);
 
-  const isYOffset = window.pageYOffset;
-  const yOffsetToNum = Number(sessionStorage.getItem("yOffset"));
-
   const fetchData = async () => {
     const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${word}&limit=0&select=${SELECT}`;
 
@@ -39,16 +36,11 @@ function Home() {
   };
 
   const loadPreviousState = () => {
+    const yOffsetToNum = Number(sessionStorage.getItem("yOffset"));
+
     if (yOffsetToNum) {
       window.scroll({ top: yOffsetToNum, left: 0, behavior: "smooth" });
-      sessionStorage.removeItem("yOffset");
     }
-
-    window.addEventListener("beforeunload", handleBeforeunload);
-
-    return () => {
-      window.removeEventListener("beforeunload", handleBeforeunload);
-    };
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -79,16 +71,23 @@ function Home() {
     }
   };
 
-  const handleBeforeunload = () => {
-    sessionStorage.setItem("yOffset", String(isYOffset));
-  };
-
   useEffect(() => {
     const landing = async () => {
       await fetchData();
       loadPreviousState();
     };
+
+    const handleBeforeunload = () => {
+      sessionStorage.setItem("yOffset", String(window.pageYOffset));
+    };
+
     landing();
+
+    window.addEventListener("beforeunload", handleBeforeunload);
+
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeunload);
+    };
   }, []);
 
   // console.log(searchedProducts);
