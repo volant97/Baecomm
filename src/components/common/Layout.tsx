@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
+import ScrollToTopBtn from "./ScrollToTopBtn";
 
 function Layout() {
   return (
     <StLayout>
       <Outlet />
+      <ScrollToTopBtn />
     </StLayout>
   );
 }

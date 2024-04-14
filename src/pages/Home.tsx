@@ -5,7 +5,6 @@ import { productsSelectType } from "../types/apiType";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { previousState } from "../recoil/previous";
-import ScrollToTopBtn from "../components/common/ScrollToTopBtn";
 
 function Home() {
   const navigate = useNavigate();
@@ -20,7 +19,7 @@ function Home() {
   const fetchData = async (isprevSearchedWord = "") => {
     const API_SEARCH_URL = `https://dummyjson.com/products/search?q=${
       !isprevSearchedWord ? word : isprevSearchedWord
-    }&limit=27&select=${SELECT}`;
+    }&limit=0&select=${SELECT}`;
 
     try {
       const res = await fetch(API_SEARCH_URL);
@@ -105,8 +104,6 @@ function Home() {
     }
   };
 
-  console.log(searchedWord.current);
-
   useEffect(() => {
     const landing = async () => {
       const prevSearchedWord = sessionStorage.getItem("searchedWord");
@@ -134,6 +131,7 @@ function Home() {
         <input
           value={word}
           onChange={handleInputChange}
+          type="search"
           placeholder={searchedWord.current}
           required
         />
@@ -167,7 +165,6 @@ function Home() {
         ) : null}
         <p>{`${limit} / ${totalCount}`}</p>
       </StShowMoreBtnContainer>
-      <ScrollToTopBtn />
     </StContainer>
   );
 }

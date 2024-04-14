@@ -19,13 +19,11 @@ function TestPage3() {
   };
 
   const handleYTempBtnClick = () => {
-    console.log(window.pageYOffset, " 저장");
     sessionStorage.setItem("yOffset", String(window.pageYOffset));
   };
 
   useEffect(() => {
     const isY = Number(sessionStorage.getItem("yOffset"));
-    console.log(isY, "가져옴");
 
     if (isY) {
       window.scroll({ top: isY, left: 0, behavior: "smooth" });

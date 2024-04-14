@@ -37,8 +37,6 @@ function TestPage2() {
     fetchData();
   }, []);
 
-  console.log(products);
-
   return (
     <>
       {products.map((item: any, index: number) => (

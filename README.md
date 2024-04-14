@@ -68,7 +68,7 @@ https://dummyjson.com/docs/products
 - CSS
 - Recoil을 활용하여 상세 페이지 최적화 v
   - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지 v
-- 콘솔로그 삭제
+- 콘솔로그 삭제 v
 - 배포
 - Recoil을 활용하여 상세 페이지 최적화
 - ScrollToTopBtn v

@@ -31,8 +31,6 @@ function Detail() {
     fetchData();
   }, []);
 
-  // console.log("!!", detailedProducts?.images);
-
   return (
     <StContainer>
       <Link to={"/"}>목록으로 돌아가기</Link>
