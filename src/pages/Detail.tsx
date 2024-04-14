@@ -2,7 +2,14 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { productsSelectType } from "../types/apiType";
-import styled from "styled-components";
+import {
+  StCard,
+  StCardImgGroupContainer,
+  StContainer,
+  StImgContainer,
+  StTextContainer,
+  StThumnailImg,
+} from "../style/detail";
 
 function Detail() {
   const params = useParams();
@@ -25,8 +32,6 @@ function Detail() {
     }
   };
 
-  const handleBackToListLinkClick = () => {};
-
   useEffect(() => {
     fetchData();
   }, []);
@@ -36,18 +41,22 @@ function Detail() {
       <Link to={"/"}>목록으로 돌아가기</Link>
       {detailedProducts ? (
         <StCard>
-          <img src={detailedProducts.thumbnail} alt="썸네일" />
-          <div>
-            <p>{detailedProducts.brand}</p>
-            <p>{detailedProducts.title}</p>
-            <p>{detailedProducts.price}</p>
+          <StCardImgGroupContainer>
+            <StThumnailImg>
+              <img src={detailedProducts.thumbnail} alt="썸네일" />
+            </StThumnailImg>
+            <StImgContainer>
+              {detailedProducts.images.map((item, index) => (
+                <img key={index} src={item} alt={`상품 이미지 ${index + 1}`} />
+              ))}
+            </StImgContainer>
+          </StCardImgGroupContainer>
+          <StTextContainer>
+            <h1>{detailedProducts.brand}</h1>
+            <h2>{detailedProducts.title}</h2>
+            <h3>$ {detailedProducts.price}</h3>
             <p>{detailedProducts.description}</p>
-          </div>
-          <StImgContainer>
-            {detailedProducts.images.map((item, index) => (
-              <img key={index} src={item} alt={`상품 이미지 ${index + 1}`} />
-            ))}
-          </StImgContainer>
+          </StTextContainer>
         </StCard>
       ) : (
         <p>로딩중</p>
@@ -57,37 +66,3 @@ function Detail() {
 }
 
 export default Detail;
-
-const StContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 800px;
-`;
-
-const StCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 20px;
-  padding: 20px;
-  border: 1px solid black;
-  border-radius: 20px;
-`;
-
-const StImgContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: start;
-  align-items: start;
-  gap: 20px;
-  max-width: 800px;
-  border: 2px solid black;
-
-  img {
-    width: 150px;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 20px;
-  }
-`;

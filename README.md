@@ -54,21 +54,17 @@ https://dummyjson.com/docs/products
 
 ### 업데이트 예정
 
-**상품 목록 페이지**
-
-**상품 상세 페이지**
-
 **추가 항목(UX 향상)**
 
 - any 타입 제거 v
 - error 핸들링 v
 - 로딩중 표시
-- 컴포넌트화
+- 컴포넌트 세분화
 - testPage 삭제
-- CSS
-- Recoil을 활용하여 상세 페이지 최적화 v
-  - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지 v
+- CSS v
+- Recoil을 활용하여 상세 페이지 최적화
+  - 홈페이지에서 fetch한 데이터를 활용하여 fetch 중복 방지
 - 콘솔로그 삭제 v
 - 배포
-- Recoil을 활용하여 상세 페이지 최적화
 - ScrollToTopBtn v
+- Layout Shift 보완 → Skeleton

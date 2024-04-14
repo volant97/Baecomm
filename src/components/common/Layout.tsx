@@ -1,10 +1,12 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
 import ScrollToTopBtn from "./ScrollToTopBtn";
+import LayoutHeader from "./LayoutHeader";
 
 function Layout() {
   return (
     <StLayout>
+      <LayoutHeader />
       <Outlet />
       <ScrollToTopBtn />
     </StLayout>
@@ -18,5 +20,4 @@ const StLayout = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  padding: 50px 0;
 `;

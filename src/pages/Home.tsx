@@ -1,10 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useRef, useState } from "react";
-import styled from "styled-components";
 import { productsSelectType } from "../types/apiType";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { previousState } from "../recoil/previous";
+import {
+  StContainer,
+  StSearchForm,
+  StSearchListUl,
+  StShowMoreBtnContainer,
+} from "../style/home";
 
 function Home() {
   const navigate = useNavigate();
@@ -135,8 +140,14 @@ function Home() {
           placeholder={searchedWord.current}
           required
         />
-        <button type="submit">검색</button>
-        <button type="button" onClick={handleResetBtnClick}>
+        <button className="submitBtn" type="submit">
+          검색
+        </button>
+        <button
+          className="resetBtn"
+          type="button"
+          onClick={handleResetBtnClick}
+        >
           리셋
         </button>
       </StSearchForm>
@@ -147,8 +158,10 @@ function Home() {
               <li key={item.id} onClick={() => handleProductCardClick(item.id)}>
                 <span>{index + 1}</span>
                 <img src={item.thumbnail} alt="썸네일" />
-                <p className="hover">{`${item.brand}] ${item.title}`}</p>
-                <p>{item.price}</p>
+                <div className="textContainer">
+                  <h1 className="hover">{`[${item.brand}] ${item.title}`}</h1>
+                  <p>$ {item.price}</p>
+                </div>
               </li>
             ) : null
           )
@@ -170,83 +183,3 @@ function Home() {
 }
 
 export default Home;
-
-const ulGap = "20px";
-const ulMaxWidth = "800px";
-
-const StContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const StSearchForm = styled.form`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-  input::placeholder {
-    opacity: 50%;
-  }
-`;
-
-const StSearchListUl = styled.ul`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: ${ulGap};
-  max-width: ${ulMaxWidth};
-
-  li {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    width: calc(100% / 2 - ${ulGap});
-    min-width: calc(${ulMaxWidth} / 2 - ${ulGap});
-    height: 300px;
-    padding: 20px;
-    border: 1px solid black;
-    border-radius: 20px;
-    cursor: pointer;
-
-    &:hover {
-      .hover {
-        color: blue;
-      }
-    }
-  }
-
-  span {
-    color: red;
-  }
-
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border-radius: 20px;
-  }
-
-  .none {
-    opacity: 0;
-    cursor: auto;
-  }
-`;
-
-const StShowMoreBtnContainer = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-
-  button {
-    width: 300px;
-    height: 40px;
-  }
-
-  p {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-  }
-`;

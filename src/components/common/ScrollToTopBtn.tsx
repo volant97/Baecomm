@@ -49,13 +49,13 @@ const StScrollToTopBtn = styled.button`
   border-radius: 50%;
   border: none;
   color: #fff;
-  background-color: #00641e;
+  background-color: #00b300;
   box-shadow: var(--box-shadow);
   transition: 0.2s ease-in-out;
   scale: 0;
   cursor: pointer;
 
   &:hover {
-    scale: 1.2;
+    transform: scale(1.2);
   }
 `;
