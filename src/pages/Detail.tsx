@@ -36,8 +36,6 @@ function Detail() {
     }
   };
 
-  console.log(filteredProdict);
-
   useEffect(() => {
     if (filteredProdict.length === 0) {
       fetchData();
