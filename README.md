@@ -64,3 +64,8 @@ https://dummyjson.com/docs/products
 
 - Layout Shift 보완 → Skeleton
 - 상세 페이지 이미지 배열 Carousel로 표시
+
+# Image
+
+![homepage](https://github.com/volant97/Baecomm/assets/144371827/23fdbb67-ed91-4c88-83fa-5e1b9fda1c53)
+![detailpage](https://github.com/volant97/Baecomm/assets/144371827/643eb6cb-6cdc-4ac9-82b8-a2101af351f0)
